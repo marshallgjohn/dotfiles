@@ -6,3 +6,5 @@
 # editor / OS noise
 .DS_Store
 *~
+# LazyVim local state (version stamps, news read-marks)
+.config/nvim/lazyvim.json
