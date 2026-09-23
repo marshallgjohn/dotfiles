@@ -1,0 +1,8 @@
+# Oh My Zsh is installed by install.sh to ~/.oh-my-zsh — do not vendor it
+.oh-my-zsh/
+# zsh completion caches
+.zcompdump*
+*.zwc
+# editor / OS noise
+.DS_Store
+*~

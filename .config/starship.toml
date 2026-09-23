@@ -1,0 +1,4 @@
+# Starship config — tuned for WSL (/mnt/c is slow 9p, ~ is fast ext4)
+# Suppresses: "[WARN] Scanning current directory timed out"
+scan_timeout = 200
+command_timeout = 1000

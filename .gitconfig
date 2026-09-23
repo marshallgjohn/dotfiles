@@ -1,0 +1,23 @@
+[user]
+	name = marshallgjohn
+	email = marshallgjohn@gmail.com
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+[core]
+	# WSL-safe: don't fight Windows line endings, ignore chmod noise on /mnt/c
+	autocrlf = input
+	filemode = false
+	longpaths = true
+	editor = nvim
+[fetch]
+	prune = true
+[rerere]
+	enabled = true
+[diff]
+	colorMoved = zebra
+[merge]
+	conflictstyle = zdiff3
