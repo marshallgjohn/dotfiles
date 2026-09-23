@@ -128,6 +128,14 @@ if grep -qi microsoft /proc/version 2>/dev/null; then
   }
   alias pbcopy='clip.exe'
   alias pbpaste='powershell.exe -NoProfile -NonInteractive -Command Get-Clipboard'
+  # Re-register the .exe handler if interop dies (symptom: "exec format error").
+  # Root cause is /init losing its binfmt_misc entry; this restores it live.
+  wsl-fix-interop() {
+    if [ ! -e /proc/sys/fs/binfmt_misc/WSLInterop ]; then
+      sudo sh -c 'echo ":WSLInterop:M::MZ::/init:PF" > /proc/sys/fs/binfmt_misc/register'
+    fi
+    powershell.exe -NoProfile -NonInteractive -Command "Write-Output interop-ok"
+  }
 fi
 
 # Modern CLI (dnf: fzf zoxide eza bat fd-find) — guarded so this file works anywhere
