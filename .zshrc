@@ -67,6 +67,7 @@ zstyle ':omz:update' frequency 13
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git
+  fzf
   zsh-autosuggestions
   zsh-syntax-highlighting
   )
@@ -112,8 +113,34 @@ path=(
   $path
 )
 export PATH
-# WSL: open URLs in Windows browser
-export BROWSER="wslview"
+# WSL glue (wslu isn't packaged on Fedora — use interop directly)
+if grep -qi microsoft /proc/version 2>/dev/null; then
+  export BROWSER="explorer.exe"
+  # open <url|path> in Windows (like macOS `open`); bare `open` opens cwd in Explorer
+  open() {
+    if [ $# -eq 0 ]; then explorer.exe .; return; fi
+    for target in "$@"; do
+      case "$target" in
+        http*|mailto:*) explorer.exe "$target" ;;
+        *) explorer.exe "$(wslpath -w "$target" 2>/dev/null || echo "$target")" ;;
+      esac
+    done
+  }
+  alias pbcopy='clip.exe'
+  alias pbpaste='powershell.exe -NoProfile -NonInteractive -Command Get-Clipboard'
+fi
+
+# Modern CLI (dnf: fzf zoxide eza bat fd-find) — guarded so this file works anywhere
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
+[ -f /usr/share/fzf/shell/key-bindings.zsh ] && source /usr/share/fzf/shell/key-bindings.zsh
+command -v eza >/dev/null && {
+  alias ls='eza --group-directories-first'
+  alias ll='eza -lh --group-directories-first --git'
+  alias la='eza -lah --group-directories-first --git'
+  alias lt='eza --tree --level=2'
+}
+command -v bat >/dev/null && alias cat='bat --paging=never'
+command -v lazygit >/dev/null && alias lg='lazygit'
 
 # History
 HISTSIZE=10000

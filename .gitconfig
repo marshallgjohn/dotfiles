@@ -13,6 +13,7 @@
 	filemode = false
 	longpaths = true
 	editor = nvim
+	pager = delta
 [fetch]
 	prune = true
 [rerere]
@@ -21,3 +22,22 @@
 	colorMoved = zebra
 [merge]
 	conflictstyle = zdiff3
+[alias]
+	co = checkout
+	sw = switch
+	st = status --short --branch
+	lg = log --graph --pretty='%h %ad %an %s' --date=short -20
+	last = log -1 --stat
+	unstage = reset HEAD --
+	amend = commit --amend --no-edit
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	line-numbers = true
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
